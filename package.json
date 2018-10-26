@@ -1,10 +1,9 @@
 {
   "name": "webconsole-integration",
-  "version": "0.0.1",
-  "description": "OpenShift Web Console integration with Monitoring OpenShift application in Splunk",
+  "version": "1.0.0",
+  "description": "OpenShift Web Console integration with Monitoring OpenShift application",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {

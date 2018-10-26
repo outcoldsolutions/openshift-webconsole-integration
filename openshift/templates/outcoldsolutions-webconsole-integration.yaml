@@ -1,0 +1,160 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: outcoldsolutions-webconsole-integration
+  annotations:
+    openshift.io/display-name: Web Console Integration
+    description: "An integration between OpenShift Web Console and Monitoring OpenShift application in Splunk"
+    tags: "splunk,integration,monitoring,logs"
+    iconClass: "icon-nodejs"
+    openshift.io/long-description: This template configures a container with a script.js, that can be used
+      with OpenShift Web Console to add links to the Monitoring OpenShift application in Splunk
+    openshift.io/provider-display-name: "Outcold Solutions"
+    openshift.io/documentation-url: "https://github.com/outcoldsolutions/openshift-webconsole-integration"
+    openshift.io/support-url: "https://www.outcoldsolutions.com"
+message: |-
+  The following service(s) have been created in your project: outcoldsolutions-webconsole-integration.
+
+  For more information about using this template, including OpenShift considerations, see https://github.com/outcoldsolutions/openshift-webconsole-integration/blob/master/README.md.
+
+  Use following command to get the link to the script.js
+
+    echo "https://$(oc get route outcoldsolutions-webconsole-integration -o=jsonpath='{.spec.host}')/script.js"
+
+  Open it in Web Browser to verify that you have access to it.
+
+  Use this link to apply to the scripts in Web Console
+labels:
+  template: outcoldsolutons-webconsole-integration
+  app: outcoldsolutions-webconsole-integration
+objects:
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: outcoldsolutions-webconsole-integration
+  spec:
+    type: ClusterIP
+    ports:
+      - name: 8080-tcp
+        port: 8080
+        targetPort: 8080
+        protocol: TCP
+    selector:
+      app: outcoldsolutions-webconsole-integration
+      deploymentconfig: outcoldsolutions-webconsole-integration
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: outcoldsolutions-webconsole-integration
+  spec:
+    host: "${APPLICATION_DOMAIN}"
+    port:
+      targetPort: 8080-tcp
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: outcoldsolutions-webconsole-integration
+      weight: 100
+    wildcardPolicy: None
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: outcoldsolutions-webconsole-integration
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: outcoldsolutions-webconsole-integration
+  spec:
+    successfulBuildsHistoryLimit: 3
+    failedBuildsHistoryLimit: 5
+    runPolicy: Serial
+    source:
+      type: Git
+      git:
+        uri: "${{SOURCE_REPOSITORY_URL}}"
+        ref: "${{SOURCE_REPOSITORY_REF}}"
+    strategy:
+      type: Source
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          namespace: openshift
+          name: nodejs:10
+    output:
+      to:
+        kind: ImageStreamTag
+        name: "outcoldsolutions-webconsole-integration:latest"
+    triggers:
+      - type: ImageChange
+      - type: ConfigChange
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: outcoldsolutions-webconsole-integration
+  spec:
+    replicas: "${{REPLICA_COUNT}}"
+    revisionHistoryLimit: 3
+    selector:
+      app: outcoldsolutions-webconsole-integration
+      deploymentconfig: outcoldsolutions-webconsole-integration
+    strategy:
+      type: Rolling
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+          - outcoldsolutions-webconsole-integration
+          from:
+            kind: ImageStreamTag
+            name: "outcoldsolutions-webconsole-integration:latest"
+    template:
+      metadata:
+        name: outcoldsolutions-webconsole-integration
+        labels:
+          app: outcoldsolutions-webconsole-integration
+          deploymentconfig: outcoldsolutions-webconsole-integration
+      spec:
+        containers:
+        - name: outcoldsolutions-webconsole-integration
+          image: " "
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 0.100
+            requests:
+              memory: 32Mi
+              cpu: 0.010
+          env:
+          - name: SPLUNK_WEB_URL
+            value: "${{SPLUNK_WEB_URL}}"
+parameters:
+- name: SOURCE_REPOSITORY_URL
+  displayName: Git Repository UR
+  description: The URL of the repository with your application source code.
+  required: true
+  value: https://github.com/outcoldsolutions/openshift-webconsole-integration
+- name: SOURCE_REPOSITORY_REF
+  displayName: Git Reference
+  description: Set this to a branch name, tag or other ref of your repository if you are not using the default branch.
+- name: SPLUNK_WEB_URL
+  displayName: Splunk URL
+  description: "Splunk URL (example: https://splunk:8000)"
+  required: true
+  value: "https://localhost:8000"
+- name: APPLICATION_DOMAIN
+  displayName: Application Hostname
+  description: The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.
+  value: ""
+- name: REPLICA_COUNT
+  displayName: Replica Count
+  description: Number of replicas to run
+  value: "1"
+  required: true
+

@@ -1,12 +1,15 @@
 # Integration of OpenShift Web Console with Monitoring OpenShift application
 
-This is a node-js application, that listens on port 8080 and returns a script.js,
-that can be used by the OpenShift Web Console to integrate links from the
+A node-js application that listens on port 8080 and returns a `script.js`,
+that is used by the OpenShift Web Console to embed links from the
 Logs page directly to Splunk.
+
+The `script.js` based on the example from [Extension Option for External Logging Solutions](https://docs.openshift.com/container-platform/3.11/install_config/web_console_customization.html#extension-option-for-external-logging-solutions).
+The integration is based on the [Loading Extension Scripts and Stylesheets](https://docs.openshift.com/container-platform/3.11/install_config/web_console_customization.html#loading-custom-scripts-and-stylesheets).
 
 ![Web Console Example](https://raw.githubusercontent.com/outcoldsolutions/openshift-webconsole-integration/master/docs/webconsole-example.png)
 
-## App installation
+## Install the application
 
 Switch to the `collectorforopenshift` project if you want to keep the app
 under the same project as our collector.
@@ -15,7 +18,12 @@ under the same project as our collector.
 oc project collectorforopenshift
 ```
 
-### Install from template
+You can install the application from our [template](https://github.com/outcoldsolutions/openshift-webconsole-integration/blob/master/openshift/templates/outcoldsolutions-webconsole-integration.yaml)
+or from the source.
+
+### Install from the template
+
+> Skip if you are planning to install from the source
 
 Create application from the template (change the `SPLUNK_WEB_URL` to the URL of your Splunk Web)
 
@@ -43,9 +51,11 @@ default value is empty (master).
 - `APPLICATION_DOMAIN` - if you want to override the default hostname of the
 exposed route. Default value is `outcoldsolutions-webconsole-integration-collectorforopenshift.apps.example.com`,
 where `apps.example.com` is the `openshift_master_default_subdomain`.
-- `REPLICA_COUNT` - number of replicas to run. The default value is 1.
+- `REPLICA_COUNT` - the number of replicas to run. The default value is 1.
 
 ### Install from the source
+
+> Skip, if you have installed it from the template.
 
 Clone the repo
 
@@ -54,7 +64,7 @@ git clone https://github.com/outcoldsolutions/openshift-webconsole-integration
 cd openshift-webconsole-integration
 ```
 
-Create new application from the repo
+Create a new application from the repo
 
 ```
 oc new-app . --name outcoldsolutions-webconsole-integration --labels=app=outcoldsolutions-webconsole-integration
@@ -72,7 +82,7 @@ Create the route
 oc create route edge --service=outcoldsolutions-webconsole-integration 
 ```
 
-## Uninstall App
+## Uninstall the application
 
 If you wish to uninstall the application with all dependencies, please use the following command.
 You need to execute it under the same project where you created it.
@@ -94,5 +104,33 @@ The URL will look similar to
 ```text
 https://outcoldsolutions-webconsole-integration-collectorforopenshift.apps.example.com/script.js
 ```
+
+Follow the instructions of [Loading Extension Scripts and Stylesheets](https://docs.openshift.com/container-platform/3.11/install_config/web_console_customization.html#loading-custom-scripts-and-stylesheets)
+how to load external scripts in your Web Console.
+
+Resulting ConfigMap will look similar to
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+data:
+  webconsole-config.yaml: |
+    apiVersion: webconsole.config.openshift.io/v1
+    extensions:
+      scriptURLs:
+        - https://outcoldsolutions-webconsole-integration-collectorforopenshift.apps.example.com/script.js
+  ...
+```
+
+Web Console automatically picks up the updated configuration. Refresh the Web Console
+in the browser.
+
+## Troubleshooting
+
+Open development console in your browser. Refresh the page and locate `script.js`
+from the URL specified above. If you see not a 200 code, troubleshoot base on the 
+error code.
+
+![Web Console Dev Console](https://raw.githubusercontent.com/outcoldsolutions/openshift-webconsole-integration/master/docs/webconsole-dev-console.png)
 
 

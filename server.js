@@ -18,7 +18,7 @@ const stript = (() => {
     splunkUrl = encodeURI(splunkUrl);
 
     return `'use strict';
-angular.module("mylinkextensions", ['openshiftConsole'])
+angular.module("outcoldsolutionslinkextensions", ['openshiftConsole'])
 .run(function(extensionRegistry) {
   extensionRegistry.add('log-links', _.spread(function(resource, options) {
     if (resource.kind === "Pod") {

@@ -1,0 +1,26 @@
+{
+  "name": "webconsole-integration",
+  "version": "0.0.1",
+  "description": "OpenShift Web Console integration with Monitoring OpenShift application in Splunk",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/outcoldsolutions/openshift-webconsole-integration.git"
+  },
+  "keywords": [
+    "splunk",
+    "openshift",
+    "webconsole",
+    "outcoldsolutions"
+  ],
+  "author": "Outcold Solutions",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/outcoldsolutions/openshift-webconsole-integration/issues"
+  },
+  "homepage": "https://github.com/outcoldsolutions/openshift-webconsole-integration#readme"
+}

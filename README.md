@@ -105,6 +105,9 @@ The URL will look similar to
 https://outcoldsolutions-webconsole-integration-collectorforopenshift.apps.example.com/script.js
 ```
 
+Verify first that you can open this URL in the browser. If you are using
+self-signed certificate, you will need to trust this URL first.
+
 Follow the instructions of [Loading Extension Scripts and Stylesheets](https://docs.openshift.com/container-platform/3.11/install_config/web_console_customization.html#loading-custom-scripts-and-stylesheets)
 how to load external scripts in your Web Console.
 

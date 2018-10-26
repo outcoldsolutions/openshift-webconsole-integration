@@ -44,7 +44,7 @@ angular.module("outcoldsolutionslinkextensions", ['openshiftConsole'])
     }
   }));
 });
-hawtioPluginLoader.addModule("mylinkextensions");`
+hawtioPluginLoader.addModule("outcoldsolutionslinkextensions");`
 })();
 
 const server = http.createServer((req, res) => {

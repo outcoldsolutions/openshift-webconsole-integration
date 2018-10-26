@@ -137,3 +137,9 @@ error code.
 ![Web Console Dev Console](https://raw.githubusercontent.com/outcoldsolutions/openshift-webconsole-integration/master/docs/webconsole-dev-console.png)
 
 
+If you don't see a script, you can try to delete the Pods with OpenShift console,
+so the new Pods can pick up an updated configuration
+
+```bash
+oc delete pods -n openshift-web-console -l app=openshift-web-console
+```

@@ -1,8 +1,8 @@
 const http = require('http');
 const url = require('url');
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const hostname = '0.0.0.0';
+const port = 8080;
 
 const stript = (() => {
     let splunkUrl = process.env['SPLUNK_WEB_URL'];

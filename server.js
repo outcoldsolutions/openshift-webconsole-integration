@@ -36,7 +36,7 @@ angular.module("mylinkextensions", ['openshiftConsole'])
         type: 'dom',
         node: '<span>'+
           '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/workload?form.workload='+encodeURIComponent(resource.kind.toLowerCase())+'&form.openshift_workload_id=' + encodeURIComponent(resource.metadata.uid) + '">' + 
-          'Splunk (Monitoring) "<i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>' + 
+          'Splunk (Monitoring) <i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>' + 
           '<span>'+
           '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/search?q=search%20%60macro_openshift_logs%60%20openshift_' + encodeURIComponent(resource.kind.toLowerCase()) + '_id%3D%22'+encodeURIComponent(resource.metadata.uid)+'%22">' + 
           'Splunk (Logs) <i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>'

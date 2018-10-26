@@ -126,10 +126,10 @@ objects:
             protocol: TCP
           resources:
             limits:
-              memory: 64Mi
+              memory: 56Mi
               cpu: 0.100
             requests:
-              memory: 32Mi
+              memory: 24Mi
               cpu: 0.010
           env:
           - name: SPLUNK_WEB_URL

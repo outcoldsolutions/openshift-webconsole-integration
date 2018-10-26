@@ -21,26 +21,25 @@ const stript = (() => {
 angular.module("mylinkextensions", ['openshiftConsole'])
 .run(function(extensionRegistry) {
   extensionRegistry.add('log-links', _.spread(function(resource, options) {
-    console.dir(resource);
     if (resource.kind === "Pod") {
       return {
         type: 'dom',
         node: '<span>'+
-          '<a href="${splunkUrl}/en-US/app/monitoringopenshift/pod?form.host='+encodeURIComponent(resource.spec.nodeName)+'&form.openshift_pod_id=' + encodeURIComponent(resource.metadata.uid) + '">' + 
-          'Splunk (Monitoring)</a><i class="fa fa-external-link"></i><span class="action-divider">|</span></span>' +
+          '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/pod?form.host='+encodeURIComponent(resource.spec.nodeName)+'&form.openshift_pod_id=' + encodeURIComponent(resource.metadata.uid) + '">' + 
+          'Splunk (Monitoring)<i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>' +
           '<span>'+
-          '<a href="${splunkUrl}/en-US/app/monitoringopenshift/search?q=search%20%60macro_openshift_logs%60%20openshift_pod_id%3D%22'+encodeURIComponent(resource.metadata.uid)+'%22">' + 
-          'Splunk (Logs)</a><i class="fa fa-external-link"></i><span class="action-divider">|</span></span>'
+          '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/search?q=search%20%60macro_openshift_logs%60%20openshift_pod_id%3D%22'+encodeURIComponent(resource.metadata.uid)+'%22">' + 
+          'Splunk (Logs)<i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>'
       };
     } else {
       return {
         type: 'dom',
         node: '<span>'+
-          '<a href="${splunkUrl}/en-US/app/monitoringopenshift/pod?form.workload='+encodeURIComponent(resource.kind.toLowerCase())+'&form.openshift_workload_id=' + encodeURIComponent(resource.metadata.uid) + '">' + 
-          'Splunk (Monitoring)</a><i class="fa fa-external-link"></i><span class="action-divider">|</span></span>' + 
+          '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/workload?form.workload='+encodeURIComponent(resource.kind.toLowerCase())+'&form.openshift_workload_id=' + encodeURIComponent(resource.metadata.uid) + '">' + 
+          'Splunk (Monitoring)<i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>' + 
           '<span>'+
-          '<a href="${splunkUrl}/en-US/app/monitoringopenshift/search?q=search%20%60macro_openshift_logs%60%20openshift_' + encodeURIComponent(resource.kind.toLowerCase()) + '_id%3D%22'+encodeURIComponent(resource.metadata.uid)+'%22">' + 
-          'Splunk (Logs)</a><i class="fa fa-external-link"></i><span class="action-divider">|</span></span>'
+          '<a target=_blank href="${splunkUrl}/en-US/app/monitoringopenshift/search?q=search%20%60macro_openshift_logs%60%20openshift_' + encodeURIComponent(resource.kind.toLowerCase()) + '_id%3D%22'+encodeURIComponent(resource.metadata.uid)+'%22">' + 
+          'Splunk (Logs)<i class="fa fa-external-link"></i></a><span class="action-divider">|</span></span>'
       };
     }
   }));

@@ -80,7 +80,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: openshift
-          name: nodejs:10
+          name: "${{NODEJS_IMAGE}}"
     output:
       to:
         kind: ImageStreamTag
@@ -157,4 +157,8 @@ parameters:
   description: Number of replicas to run
   value: "1"
   required: true
+- name: NODEJS_IMAGE
+  displayName: Node.JS image
+  description: The version of Node.JS image (default is nodejs:8)
+  value: "nodejs:8"
 

@@ -28,9 +28,9 @@ or from the source.
 Create application from the template (change the `SPLUNK_WEB_URL` to the URL of your Splunk Web)
 
 ```bash
-oc new-app -f https://raw.githubusercontent.com/outcoldsolutions/openshift-webconsole-integration/v1.1.0/openshift/templates/outcoldsolutions-webconsole-integration.yaml \
+oc new-app -f https://raw.githubusercontent.com/outcoldsolutions/openshift-webconsole-integration/v1.2.0/openshift/templates/outcoldsolutions-webconsole-integration.yaml \
     --param=SPLUNK_WEB_URL=http://splunk.example.com:8000 \
-    --param=SOURCE_REPOSITORY_REF=v1.1.0
+    --param=SOURCE_REPOSITORY_REF=v1.2.0
 ```
 
 You can verify all the created workloads and objects with
@@ -146,6 +146,8 @@ oc delete pods -n openshift-web-console -l app=openshift-web-console
 
 ## Release notes
 
+- 2019-08-07 1.2.0
+    - New parameter `SPLUNK_APP_NAME` that allows to override default name of the application from `monitoringopenshift`
 - 2018-11-02 1.1.0
     - Use `node.js:8` as a default image instead of `nodejs.10` to support earlier versions
     - Add `NODEJS_IMAGE` template parameter to be able to override default image `nodejs:8`

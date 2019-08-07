@@ -48,6 +48,7 @@ You can fork this repository and specify a different URL.
 default value is empty (master).
 - `SPLUNK_WEB_URL` - the path to the Splunk Web interface. The default value is
 `https://localhost:8000`.
+- `SPLUNK_APP_NAME` - the name of the application (default is `monitoringopenshift`).
 - `APPLICATION_DOMAIN` - if you want to override the default hostname of the
 exposed route. Default value is `outcoldsolutions-webconsole-integration-collectorforopenshift.apps.example.com`,
 where `apps.example.com` is the `openshift_master_default_subdomain`.

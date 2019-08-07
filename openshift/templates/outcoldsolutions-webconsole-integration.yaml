@@ -148,6 +148,10 @@ parameters:
   description: "Splunk URL (example: https://splunk:8000)"
   required: true
   value: "https://localhost:8000"
+- name: SPLUNK_APP_NAME
+  displayName: Application Name URL
+  description: Name of the application in Search Head URL and on the disk
+  value: "monitoringopenshift"
 - name: APPLICATION_DOMAIN
   displayName: Application Hostname
   description: The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.
